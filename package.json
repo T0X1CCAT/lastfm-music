@@ -1,0 +1,26 @@
+{
+  "name": "lastfm-music",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/T0X1CCAT/lastfm-music.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/T0X1CCAT/lastfm-music/issues"
+  },
+  "homepage": "https://github.com/T0X1CCAT/lastfm-music#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "md5": "^2.2.1",
+    "querystring": "^0.2.0",
+    "request": "^2.85.0",
+    "xml2js": "^0.4.19"
+  }
+}
