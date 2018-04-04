@@ -12,6 +12,19 @@
                 response.json().then(function(data) {
                     console.log(data);
 
+                    var template = null;
+                    var templateScript = null;
+                    var context = null;
+                    var html = null;
+
+                    data.forEach( function(artist){
+                        template = document.getElementById('artistTemplate').innerHTML;
+                        templateScript = Handlebars.compile(template);
+                        context = { "display_name" : artist.name, "image_url": artist.image};
+                        html = templateScript(context);
+                        document.getElementById("insertHere").innerHTML += html;
+                    });
+
                 });
             }
         )
