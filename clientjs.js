@@ -1,4 +1,6 @@
-(function(){
+const Handlebars  = require('handlebars');
+
+getArtists = () =>  {
     fetch('/myartists')
         .then(
             function(response) {
@@ -12,15 +14,15 @@
                 response.json().then(function(data) {
                     console.log(data);
 
-                    var template = null;
-                    var templateScript = null;
-                    var context = null;
-                    var html = null;
+                    let template = null;
+                    let templateScript = null;
+                    let context = null;
+                    let html = null;
 
                     data.forEach( function(artist){
                         template = document.getElementById('artistTemplate').innerHTML;
                         templateScript = Handlebars.compile(template);
-                        context = { "display_name" : artist.name, "image_url": artist.image};
+                        context = { "display_name" : artist.name, "image_url": artist.image ? artist.image : 'http://placeimg.com/150/150/notfound/grayscale'};
                         html = templateScript(context);
                         document.getElementById("insertHere").innerHTML += html;
                     });
@@ -31,6 +33,7 @@
         .catch(function(err) {
             console.log('Fetch Error :-S', err);
         });
-}());
+};
+
 
 

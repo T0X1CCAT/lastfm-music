@@ -4,14 +4,13 @@
     <title>My artists</title>
 
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script language="javascript" src="handlebars.min.js"></script>
-    <script language="javascript" src="script.js"></script>
+    <script language="javascript" src="dist/bundle.js"></script>
     <script language="javascript">
 
         document.onreadystatechange = function () {
             if (document.readyState == "interactive") {
                 console.log('on load');
-
+                getArtists();
 
             }
         }
@@ -21,18 +20,15 @@
 
 <body>
     <div>
-        My artists
-
         <script id="artistTemplate" language="JavaScript" type="text/x-handlebars-template">
             <div class="artist-container">
-                <div class="pull-left">
-                    <img class="media-object" width="150" src="{{image_url}}" />
-                </div>
-                <div class="media-body">
-                    <dl class="dl-horizontal">
+                <img class="artist-image" src="{{image_url}}" />
+                    <div class="artist-name">
                         {{display_name}}
-                    </dl>
+
+                    </div>
                 </div>
+
             </div>
         </script>
 
