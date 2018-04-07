@@ -1,10 +1,13 @@
 const express = require('express');
 const request = require('request');
+const axios = require('axios');
 const querystring = require('querystring');
 const md5 = require('md5');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser();
 const util = require('util');
+
+const totalTrackTime = require('./server/top-tracks.js').totalTrackTime;
 
 const app = express();
 
@@ -72,6 +75,13 @@ app.get('/callback', function(req, res) {
         request(options, callback);
 
     }
+});
+
+app.get('/totalTrackTime', (req, res) => {
+
+    console.log('total track time');
+    totalTrackTime(api_key, res);
+
 });
 
 app.get('/myartists', function(req, res){

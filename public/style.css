@@ -8,6 +8,7 @@
 
 .artist-container{
     height: 192px;
+    font-family: monospace;
 }
 .artist-name{
     width:150px;
