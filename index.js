@@ -1,13 +1,10 @@
 const express = require('express');
 const request = require('request');
-const axios = require('axios');
 const querystring = require('querystring');
 const md5 = require('md5');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser();
 const util = require('util');
-
-const totalTrackTime = require('./server/top-tracks.js').totalTrackTime;
 
 const app = express();
 
@@ -15,6 +12,7 @@ const app = express();
 const api_key = process.env.API_KEY;
 const client_secret = process.env.CLIENT_SECRET; // Your secret
 const redirect_uri = process.env.CALLVACK_URL; // Your redirect uri
+const lastfm_user = process.env.USER;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -47,7 +45,6 @@ app.get('/callback', function(req, res) {
     } else {
 
         //this is getting the session token needed for certain api calls
-        console.log('token ', token);
         const signed_call_string = 'api_key'+api_key+'methodauth.getSession'+'token'+token+client_secret;
 
         const signed_call = md5(signed_call_string);
@@ -63,7 +60,6 @@ app.get('/callback', function(req, res) {
         console.log('url', options.url);
         function callback(error, response, body) {
             if (!error && response.statusCode == 200) {
-                console.log('body', body);
                 const xml = parser.parseString(body, function (err, result) {
                     console.dir(result.lfm.session[0].key[0]);
                     console.log('Done');
@@ -77,13 +73,7 @@ app.get('/callback', function(req, res) {
     }
 });
 
-app.get('/totalTrackTime', (req, res) => {
-
-    console.log('total track time');
-    totalTrackTime(api_key, res);
-
-});
-
+//this gets the top artists for the user.
 app.get('/myartists', function(req, res){
     console.log('default');
 
@@ -91,7 +81,6 @@ app.get('/myartists', function(req, res){
         if (!error && response.statusCode == 200) {
             const xml = parser.parseString(body, function (err, result) {
                 const topArtists = result.lfm.topartists[0].artist;
-                console.log('topartists', topArtists);
 
                 const data = {
                     artists: []
@@ -99,14 +88,13 @@ app.get('/myartists', function(req, res){
 
                 let artists = topArtists.map(artist => ({name: artist.name[0], image: artist.image[2]._}) );
 
-                console.log('artists', artists);
 
                 res.send(artists);
             });
         }
     }
     const topArtistsOptions = {
-        url: 'https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=T0x1ccat&api_key='+api_key,
+        url: `https://ws.audioscrobbler.com/2.0/?method=user.gettopartists&user=${lastfm_user}&api_key=`+api_key,
         method: 'get'
     };
 
