@@ -6,12 +6,15 @@ const xml2js = require('xml2js');
 const parser = new xml2js.Parser();
 const util = require('util');
 
+console.log('start');
 const app = express();
 
 //hand these through on the command line eg heroku or intellij
 const api_key = process.env.API_KEY;
 const client_secret = process.env.CLIENT_SECRET; // Your secret
 const redirect_uri = process.env.CALLVACK_URL; // Your redirect uri
+
+console.log('start 2 ', api_key);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -103,5 +106,6 @@ app.get('/myartists', function(req, res){
 
 });
 
+console.log('start 3 '
 app.listen(80);
 console.log('listening....');
