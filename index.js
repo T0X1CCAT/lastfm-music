@@ -13,6 +13,7 @@ const app = express();
 const api_key = process.env.API_KEY;
 const client_secret = process.env.CLIENT_SECRET; // Your secret
 const redirect_uri = process.env.CALLVACK_URL; // Your redirect uri
+var port = process.env.PORT || 3000;
 
 console.log('start 2 ', api_key);
 
@@ -107,5 +108,7 @@ app.get('/myartists', function(req, res){
 });
 
 console.log('start 3 ');
-app.listen(80);
-console.log('listening....');
+app.listen(port, function() {
+    console.log('listening....', port);
+});
+
