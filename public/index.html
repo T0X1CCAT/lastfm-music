@@ -10,7 +10,7 @@
         document.onreadystatechange = function () {
             if (document.readyState == "interactive") {
                 console.log('on load');
-                getArtists();
+                getArtists(window.location.search.substr(1));
 
             }
         }

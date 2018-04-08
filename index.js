@@ -12,7 +12,6 @@ const app = express();
 const api_key = process.env.API_KEY;
 const client_secret = process.env.CLIENT_SECRET; // Your secret
 const redirect_uri = process.env.CALLVACK_URL; // Your redirect uri
-const lastfm_user = process.env.USER;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -75,8 +74,9 @@ app.get('/callback', function(req, res) {
 
 //this gets the top artists for the user.
 app.get('/myartists', function(req, res){
-    console.log('default');
 
+    let lastfm_user = req.query.user;
+    console.log('lastfm_user', lastfm_user);
     topArtistCallback = (error, response, body) =>{
         if (!error && response.statusCode == 200) {
             const xml = parser.parseString(body, function (err, result) {

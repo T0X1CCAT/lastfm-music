@@ -1,7 +1,7 @@
 const Handlebars  = require('handlebars');
 
-getArtists = () =>  {
-    fetch('/myartists')
+getArtists = (user) =>  {
+    fetch(`/myartists?${user}`)
         .then(
             function(response) {
                 if (response.status !== 200) {
