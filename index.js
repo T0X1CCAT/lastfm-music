@@ -106,6 +106,6 @@ app.get('/myartists', function(req, res){
 
 });
 
-console.log('start 3 '
+console.log('start 3 ');
 app.listen(80);
 console.log('listening....');
