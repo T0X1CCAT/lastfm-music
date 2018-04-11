@@ -15,7 +15,6 @@ const client_secret = process.env.CLIENT_SECRET; // Your secret
 const redirect_uri = process.env.CALLVACK_URL; // Your redirect uri
 var port = process.env.PORT || 3000;
 
-console.log('start 2 ', api_key);
 
 app.use(express.static(__dirname + '/public'));
 
@@ -84,14 +83,10 @@ app.get('/myartists', function(req, res){
     topArtistCallback = (error, response, body) =>{
         if (!error && response.statusCode == 200) {
             const xml = parser.parseString(body, function (err, result) {
-                const topArtists = result.lfm.topartists[0].artist;
 
-                const data = {
-                    artists: []
-                };
-
-                let artists = topArtists.map(artist => ({name: artist.name[0], image: artist.image[2]._}) );
-
+                let artists = result.lfm.topartists[0].artist.map( (artist) => {
+                    return ({name: artist.name[0], image: artist.image[2]._})
+                });
 
                 res.send(artists);
             });
@@ -107,7 +102,6 @@ app.get('/myartists', function(req, res){
 
 });
 
-console.log('start 3 ');
 app.listen(port, function() {
     console.log('listening....', port);
 });
