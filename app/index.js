@@ -5,8 +5,9 @@ const md5 = require('md5');
 const xml2js = require('xml2js');
 const parser = new xml2js.Parser();
 const util = require('util');
+const spotifyauth = require('./spotifyauth');
+const spotifyartist = require('./spotifyartist');
 
-console.log('start');
 const app = express();
 
 //hand these through on the command line eg heroku or intellij
@@ -16,7 +17,7 @@ const redirect_uri = process.env.CALLVACK_URL; // Your redirect uri
 var port = process.env.PORT || 3000;
 
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/../public'));
 
 
 
@@ -64,7 +65,6 @@ app.get('/callback', function(req, res) {
             if (!error && response.statusCode == 200) {
                 const xml = parser.parseString(body, function (err, result) {
                     console.dir(result.lfm.session[0].key[0]);
-                    console.log('Done');
                 });
                 //const tokenResult = JSON.stringify(xml);
             }
@@ -75,8 +75,30 @@ app.get('/callback', function(req, res) {
     }
 });
 
+app.get('/artistInfo', (req, res) => {
+    const artistName = req.query.name;
+
+    const i = req.url.indexOf('?');
+    const query = req.url.substr(i+1);
+    const spotifyRequest = spotifyartist.getArtistsInfo(artistName);
+
+    spotifyRequest.then((artistId) => {
+            res.json({url: "spotify://artist/" + artistId});
+        }).catch((error) => {
+            res.json({error: 'no-artist'});
+
+        });
+
+
+});
+
 //this gets the top artists for the user.
 app.get('/myartists', function(req, res){
+
+    const spotRequest = spotifyauth.getSpotifyClientCredentialsToken();
+    spotRequest.then((token_data) => {
+       console.log('token', token_data);
+    });
 
     let lastfm_user = req.query.user;
     console.log('lastfm_user', lastfm_user);

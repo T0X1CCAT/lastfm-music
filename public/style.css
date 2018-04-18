@@ -12,8 +12,11 @@
 }
 @media (max-width : 376px) {
     .artist-container {
-        height: 350px;
+        height: 175px;
+        float: left;
         font-family: monospace;
+        margin-right: 1px;
+        margin-bottom: 1px;
     }
 }
 
@@ -23,10 +26,11 @@
 
 @media (max-width : 376px) {
     .artist-name{
-        width:50%;
+        width:75%;
         position: relative;
-        bottom: 30px;
+        bottom: 40px;
         background-color: white;
+        font-size: 0.9em;
     }
 
 }
@@ -37,7 +41,7 @@
 }
 @media (max-width : 376px) {
     .artist-image{
-        width:350px;
-        height:350px;
+        width:175px;
+        height:175px;
     }
 }
